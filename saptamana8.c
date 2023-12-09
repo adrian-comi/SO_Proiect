@@ -123,7 +123,6 @@ void convert_to_grayscale(const char *filePath)
 
     for (int i = 0; i < height * width; i++)
     {
-        // Read pixel data
         if (read(fd_i, pixel, sizeof(pixel)) == -1)
         {
             perror("Error reading from file: ");
@@ -131,13 +130,10 @@ void convert_to_grayscale(const char *filePath)
             exit(EXIT_FAILURE);
         }
 
-        // Calculate grayscale value
         grayscale_value = 0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2];
 
-        // Set each color component to the grayscale value
         pixel[0] = pixel[1] = pixel[2] = grayscale_value;
 
-        // Move cursor back to overwrite the original pixel
         if (lseek(fd_i, -sizeof(pixel), SEEK_CUR) == -1)
         {
             perror("Error moving file cursor: ");
@@ -145,7 +141,6 @@ void convert_to_grayscale(const char *filePath)
             exit(EXIT_FAILURE);
         }
 
-        // Write the grayscale pixel back to the file
         if (write(fd_i, pixel, sizeof(pixel)) != sizeof(pixel))
         {
             perror("Error writing pixel: ");
