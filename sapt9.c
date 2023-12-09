@@ -324,6 +324,13 @@ void processDirectory(const char *dirPath, const char *outputDir, const char *ch
             continue;
         }
 
+        int pipe1[2], pipe2[2];
+        if((pipe(pipe1)<0 ) || (pipe(pipe2) <0))
+        {
+            perror("Eroare la creerea pipe-urilor!\n");
+            exit(EXIT_FAILURE);
+        }
+
         int pid = fork();
         if (pid == -1)
         {
